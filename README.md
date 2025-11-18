@@ -29,3 +29,39 @@ rbenv local 3.2.5
 
 # Install gems
 bundle install
+
+## 2) Configure environment
+
+Create a `.env` file at the project root (or set these in your shell/CI):
+
+```dotenv
+ALGOLIA_APP_ID=YourAppID
+ALGOLIA_SEARCH_API_KEY=YourSearchOnlyKey
+ALGOLIA_ADMIN_API_KEY=YourAdminKey
+
+## 3) Database setup
+
+SQLite (default):
+
+```bash
+# Create the database and run migrations
+bin/rails db:create db:migrate
+
+# (Optional) load sample JSON data if necessary
+bin/rails db:seed
+
+## 4) Index to Algolia
+
+Reindex whenever you change what the `Product` model sends to Algolia
+(e.g., add `:image`, `:url`, or `hierarchicalCategories`):
+
+```bash
+bin/rails runner 'Product.reindex'
+
+## 5) Run the app
+
+Start the Rails server, then open **http://localhost:3000** in your browser (this is the default URL/port).
+
+```bash
+# Start the Rails server
+bin/rails s
