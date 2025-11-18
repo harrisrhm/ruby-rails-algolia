@@ -1,0 +1,143 @@
+<div class="layout">
+  <!-- Sidebar: facets -->
+  <aside class="panel">
+    <div id="clear-refinements"></div>
+    <div id="current-refinements" style="margin-top: 8px;"></div>
+    <hr style="margin:14px 0" />
+    <h4>Categories</h4>
+    <div id="hierarchical-categories"></div>
+    <h4 style="margin-top:14px">Brand</h4>
+    <div id="brand"></div>
+    <h4 style="margin-top:14px">Price</h4>
+    <div id="price-range"></div>
+    <div style="margin-top:14px" id="free-shipping"></div>
+  </aside>
+
+  <!-- Main: search + hits -->
+  <main>
+  <div class="panel" style="margin-bottom: 16px;">
+    <div id="searchbox"></div>
+    <div id="stats" class="muted" style="margin-top:8px;"></div>
+  </div>
+
+  <!-- NEW wrapper gives the grid breathing room -->
+  <div class="hits-shell">
+    <div id="hits"></div>
+    <div id="pagination" style="margin-top: 16px;"></div>
+  </div>
+</main>
+</div>
+
+<!-- Algolia JS clients -->
+<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch-lite.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4"></script>
+
+<script>
+  // Use a SEARCH-ONLY key here (never your admin key)
+  const searchClient = algoliasearch(
+    "<%= ENV.fetch('ALGOLIA_APP_ID') %>",
+    "<%= ENV.fetch('ALGOLIA_SEARCH_API_KEY') %>"
+  );
+
+  const indexName = "<%= Product.index_name %>";
+
+  const search = instantsearch({
+    indexName,
+    searchClient,
+  });
+
+  // Helper to format money (set your currency)
+  const money = (n) => n == null ? "" : new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(n);
+
+  search.addWidgets([
+    instantsearch.widgets.searchBox({
+      container: '#searchbox',
+      placeholder: 'Search products…'
+    }),
+
+
+instantsearch.widgets.configure({
+      hitsPerPage: 9,
+      attributesToRetrieve: ['name','description','brand','price','image','url']
+    }),
+    instantsearch.widgets.stats({ container: '#stats' }),
+    instantsearch.widgets.clearRefinements({ container: '#clear-refinements', translations: { resetButtonText: 'Clear filters' } }),
+    instantsearch.widgets.currentRefinements({ container: '#current-refinements' }),
+
+    // Hierarchical categories (requires hierarchicalCategories.lvl0..lvl3 in index)
+    instantsearch.widgets.hierarchicalMenu({
+      container: '#hierarchical-categories',
+      attributes: [
+        'hierarchicalCategories.lvl0',
+        'hierarchicalCategories.lvl1',
+        'hierarchicalCategories.lvl2',
+        'hierarchicalCategories.lvl3'
+      ]
+    }),
+
+    // Brand facet
+    instantsearch.widgets.refinementList({
+      container: '#brand',
+      attribute: 'brand',
+      searchable: true
+    }),
+
+    // Price range input (numeric attribute)
+    instantsearch.widgets.rangeInput({
+      container: '#price-range',
+      attribute: 'price'
+    }),
+
+    // Free shipping toggle
+    instantsearch.widgets.toggleRefinement({
+      container: '#free-shipping',
+      attribute: 'free_shipping',
+      label: 'Free shipping only'
+    }),
+
+    // Product cards
+    instantsearch.widgets.hits({
+      container: '#hits',
+      templates: {
+        item(hit) {
+          const money = (n) => n == null ? "" : new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD' }).format(n);
+          const name = (hit._highlightResult?.name?.value) || hit.name || '';
+          const desc = hit.description || '';
+          const price = money(hit.price);
+          const brand = hit.brand ? `<span class="muted">• ${hit.brand}</span>` : '';
+          const imgUrl = hit.image;       // make sure it's in your index
+          const link   = hit.url || '#';
+
+        const img = imgUrl
+        ? `<a href="${link}" target="_blank" rel="noopener">
+             <div class="thumb">
+               <img
+                 src="${imgUrl}"
+                 alt="${hit.name || ''}"
+                 loading="lazy"
+                 decoding="async"
+                 width="600" height="600"  />
+             </div>
+           </a>`
+        : `<div class="thumb thumb--placeholder"></div>`;
+
+
+          return `
+            <article class="card">
+              ${img}
+              <h3>${name}</h3>
+              <p class="muted">${desc}</p>
+              <p><span class="price">${price}</span></p>
+            </article>
+          `;
+        }
+      }
+    }),
+
+    instantsearch.widgets.pagination({
+      container: '#pagination'
+    })
+  ]);
+
+  search.start();
+</script>
