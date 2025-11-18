@@ -30,6 +30,8 @@ rbenv local 3.2.5
 # Install gems
 bundle install
 
+---
+
 ## 2) Configure environment
 
 Create a `.env` file at the project root (or set these in your shell/CI):
@@ -38,6 +40,8 @@ Create a `.env` file at the project root (or set these in your shell/CI):
 ALGOLIA_APP_ID=YourAppID
 ALGOLIA_SEARCH_API_KEY=YourSearchOnlyKey
 ALGOLIA_ADMIN_API_KEY=YourAdminKey
+
+---
 
 ## 3) Database setup
 
@@ -50,6 +54,8 @@ bin/rails db:create db:migrate
 # (Optional) load sample JSON data if necessary
 bin/rails db:seed
 
+---
+
 ## 4) Index to Algolia
 
 Reindex whenever you change what the `Product` model sends to Algolia
@@ -57,6 +63,8 @@ Reindex whenever you change what the `Product` model sends to Algolia
 
 ```bash
 bin/rails runner 'Product.reindex'
+
+---
 
 ## 5) Run the app
 
