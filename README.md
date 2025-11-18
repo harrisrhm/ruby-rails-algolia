@@ -17,7 +17,7 @@ Features a search box, sidebar facets (brand, price, free shipping, hierarchical
 
 ---
 
-## 1) Clone & install
+## Installation
 
 ```bash
 git clone <YOUR_REPO_URL>.git
