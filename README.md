@@ -19,57 +19,54 @@ Features a search box, sidebar facets (brand, price, free shipping, hierarchical
 
 ## Installation
 
-```bash
+1. Download the repository onto your project directory:
+```sh
 git clone <YOUR_REPO_URL>.git
 cd <YOUR_REPO_NAME>
+```
 
-# Use Ruby 3.2.x locally (example: 3.2.5)
+2. Use Ruby 3.2.x locally (example: 3.2.5)":
+```sh
 rbenv install -s 3.2.5
 rbenv local 3.2.5
+```
 
-# Install gems
+3. Install gems:
+```sh
 bundle install
+```
 
----
-
-## 2) Configure environment
-
-Create a `.env` file at the project root (or set these in your shell/CI):
-
-```dotenv
+4. Create a `.env` file at the project root:
+```sh
 ALGOLIA_APP_ID=YourAppID
 ALGOLIA_SEARCH_API_KEY=YourSearchOnlyKey
 ALGOLIA_ADMIN_API_KEY=YourAdminKey
+```
 
----
-
-## 3) Database setup
-
-SQLite (default):
-
-```bash
-# Create the database and run migrations
+5. Create the database and run migrations:
+```sh
 bin/rails db:create db:migrate
+```
 
-# (Optional) load sample JSON data if necessary
+(Optional) load sample JSON data
+```sh
 bin/rails db:seed
+```
+> **Note:** This step is necessary when you need sample data locally and loaded initially
 
----
-
-## 4) Index to Algolia
+6) Index to Algolia
 
 Reindex whenever you change what the `Product` model sends to Algolia
 (e.g., add `:image`, `:url`, or `hierarchicalCategories`):
 
-```bash
+```sh
 bin/rails runner 'Product.reindex'
+```
 
----
-
-## 5) Run the app
+7) Run the app
 
 Start the Rails server, then open **http://localhost:3000** in your browser (this is the default URL/port).
 
-```bash
-# Start the Rails server
+```sh
 bin/rails s
+```
