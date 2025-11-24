@@ -48,7 +48,7 @@ ALGOLIA_ADMIN_API_KEY=YourAdminKey
 bin/rails db:create db:migrate
 ```
 
-# (Optional) load sample JSON data
+(Optional) load sample JSON data
 ```sh
 bin/rails db:seed
 ```
