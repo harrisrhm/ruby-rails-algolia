@@ -52,7 +52,7 @@ bin/rails db:create db:migrate
 ```sh
 bin/rails db:seed
 ```
-> **Note:** This step is necessary when you need sample data locally and load initially
+> **Note:** This step is necessary when you need sample data locally and loaded initially
 
 6) Index to Algolia
 
