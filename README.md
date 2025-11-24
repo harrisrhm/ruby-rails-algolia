@@ -25,7 +25,7 @@ git clone <YOUR_REPO_URL>.git
 cd <YOUR_REPO_NAME>
 ```
 
-2. Use Ruby 3.2.x locally (example: 3.2.5)":
+2. Use Ruby 3.2.x locally (example: 3.2.5):
 ```sh
 rbenv install -s 3.2.5
 rbenv local 3.2.5
@@ -65,7 +65,7 @@ bin/rails runner 'Product.reindex'
 
 7) Run the app
 
-Start the Rails server, then open **http://localhost:3000** in your browser (this is the default URL/port).
+Start the Rails server, then open http://localhost:3000 in your browser (this is the default URL/port).
 
 ```sh
 bin/rails s
