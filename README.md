@@ -1,7 +1,7 @@
 # Rails + Algolia InstantSearch Demo
 
-A minimal Rails app connected to Algolia with InstantSearch.js.  
-Features a search box, sidebar facets (brand, price, free shipping, hierarchical categories), and product cards with image, name, description, and price.
+A minimal Rails app connected to Algolia with InstantSearch.js.
+It ships with 10k sample products in `product.json` for easy local testing and features search box, sidebar facets (brand, price, free shipping, hierarchical categories), and product cards with image, name, description, and price.
 
 ---
 
@@ -21,7 +21,7 @@ Features a search box, sidebar facets (brand, price, free shipping, hierarchical
 
 1. Download the repository onto your project directory:
 ```sh
-git clone <YOUR_REPO_URL>.git
+git clone <THIS_REPO_URL>.git
 cd <YOUR_REPO_NAME>
 ```
 
